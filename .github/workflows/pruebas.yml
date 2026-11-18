@@ -1,0 +1,36 @@
+name: Compilar y probar en Windows
+on:
+  push:
+    paths:
+      - '*.asm'
+      - '*.vcxproj'
+      - '*.sln'
+      - 'pruebas/**'
+      - '.github/workflows/pruebas.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pruebas:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      - name: Preparar Irvine32 y compilar para x86
+        shell: pwsh
+        run: |
+          $zip = Join-Path $env:RUNNER_TEMP Irvine.zip
+          Invoke-WebRequest https://raw.githubusercontent.com/surferkip/asmbook/main/Irvine.zip -OutFile $zip
+          Expand-Archive $zip "$env:RUNNER_TEMP/irvine"
+          $inc = Get-ChildItem "$env:RUNNER_TEMP/irvine" -Recurse -Filter Irvine32.inc | Select-Object -First 1
+          msbuild Ventas.sln /p:Platform=x86 /p:Configuration=Release "/p:IrvineDir=$($inc.DirectoryName)"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Probar el menu y la persistencia
+        shell: pwsh
+        run: |
+          python -m pip install pywinpty==2.0.15
+          $exe = Get-ChildItem . -Recurse -Filter Ventas.exe | Select-Object -First 1
+          python -u pruebas/consola.py $exe.FullName

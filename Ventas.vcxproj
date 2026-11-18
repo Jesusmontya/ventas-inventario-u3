@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32"><Configuration>Release</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AD3BB4BF-7827-4253-84D5-DABA93B137E6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType><PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
+  <ImportGroup Label="ExtensionSettings"><Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props"/></ImportGroup>
+  <PropertyGroup><IrvineDir Condition="'$(IrvineDir)'==''">C:\Irvine</IrvineDir></PropertyGroup>
+  <ItemDefinitionGroup>
+    <MASM><IncludePaths>$(IrvineDir);%(IncludePaths)</IncludePaths></MASM>
+    <Link><SubSystem>Console</SubSystem><EntryPointSymbol>main</EntryPointSymbol><AdditionalLibraryDirectories>$(IrvineDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories><AdditionalDependencies>Irvine32.lib;kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies><ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers></Link>
+  </ItemDefinitionGroup>
+  <ItemGroup><MASM Include="AddTwo.asm"/></ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
+  <ImportGroup Label="ExtensionTargets"><Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets"/></ImportGroup>
+</Project>
