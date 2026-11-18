@@ -1,14 +1,7 @@
-# Tabla de pruebas
+# Pruebas del sistema
 
-Las pruebas se plantearon con el inventario inicial incluido. Los resultados obtenidos indican el comportamiento que muestra la ejecución manual del flujo descrito.
+La [tabla actualizada del reporte](INFORME.md#tabla-de-pruebas-actualizada) reúne las entradas, los resultados esperados y los obtenidos en Windows. La secuencia parte de una carpeta vacía y conserva el estado entre operaciones.
 
-| Caso | Entrada | Resultado esperado | Resultado obtenido |
-|---|---|---|---|
-| Consulta válida | Opción 2, índice `0` | Muestra `Te 500ml` | Se muestra el nombre del producto 0 |
-| Venta normal | Opción 3, índice `0`, cantidad `2` | Total `$30.00`; stock pasa de 50 a 48 | Total mostrado `30.0`; stock actualizado a 48 |
-| Venta con mayoreo | Opción 3, índice `1`, cantidad `5` | 5 × $30.00 − 2% = `$147.00` | Muestra aviso de descuento y total `147.0` |
-| Venta sin stock suficiente | Opción 3, índice `3`, cantidad `11` | Mensaje de existencias insuficientes | Se rechaza la operación |
-| Entrada permitida | Opción 4, índice `3`, cantidad `20` | Stock pasa de 10 a 30 | Operación exitosa |
-| Entrada que excede límite | Opción 4, índice `0`, cantidad `51` | Mensaje de máximo 100 unidades | Se rechaza la operación |
-| Código duplicado | Opción 1, código `TET-500` | Mensaje de código existente | Se rechaza el registro |
-| Guardado | Opción 6 | Crea/actualiza `inventario.bin` | Muestra confirmación de guardado |
+Para repetirla en Windows, compila la solución en Release x86, instala la dependencia con `py -3.12 -m pip install pywinpty==2.0.15` y ejecuta `py -3.12 pruebas/consola.py Release/Ventas.exe` desde la raíz del repositorio. Si el ejecutable está en otra carpeta, sustituye el último argumento por su ruta. El script crea su propio inventario temporal.
+
+[Ver la ejecución en GitHub Actions](https://github.com/Jesusmontya/ventas-inventario-u3/actions/runs/44250569784)
